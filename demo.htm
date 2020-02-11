@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">
+        <script>
+
+const URL = 'https://clinicaltrialsapi-stage.cancer.gov/v1/clinical-trials';
+const BODY = '{ "sites.org_state_or_province": ["CA", "OR"], "record_verification_date_gte": "2016-06-01", "include": ["nci_id"]}';
+
+async function doPost() {
+    const response = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: BODY
+            });
+    return await response.json();
+}
+
+async function doDemo() {
+
+    let output = document.getElementById('output');
+
+    doPost()
+    .then((resp) => {
+        output.innerHTML = '<p>Response:</p>';
+        output.innerHTML += JSON.stringify(resp);
+    })
+    .catch((err) =>{
+        output.innerHTML = '<p>Something went wrong:</p>' + err;
+    })
+
+}
+        </script>
+    </head>
+    <body>
+
+        <button id='run' type='button'>Run Demo</button>
+
+        <div id='output'></div>
+
+<script>
+    (function(){
+        let button = document.getElementById('run');
+        button.onclick=doDemo;
+    })();
+</script>
+    </body>
+</html>
